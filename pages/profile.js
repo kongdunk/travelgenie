@@ -1,4 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "./api/auth/[...nextauth]"
 
 export default function Component() {
   const { data: session } = useSession()
@@ -6,7 +8,8 @@ export default function Component() {
     return (
       <>
         Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
+        Singed in as {session.user.name}
+        <button onClick={() => signOut()}> Sign out</button>
       </>
     )
   }
@@ -16,4 +19,24 @@ export default function Component() {
       <button onClick={() => signIn()}>Sign in</button>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions)
+
+  if(!session) {
+    //redirect to login page
+    return {
+        redirect: {
+          destination:"/api/auth/signin",
+          permanent: false,
+        },
+    }
+  }
+
+  return { 
+    props: {
+      session,
+    }
+  }
 }
