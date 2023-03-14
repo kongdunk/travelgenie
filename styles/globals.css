@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.map-selected {
+  fill: #28282b;
+}
+
+.map-unselected {
+  fill: #79b6bc;
+}
+
+.map-selected:hover,
+.map-unselected:hover {
+  cursor: pointer;
+}
