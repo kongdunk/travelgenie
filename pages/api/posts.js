@@ -27,11 +27,12 @@ export default async function handler(req, res) {
 
     switch (method) {
         case 'POST':
-            const {title, content, likes} = req.body
+            const {title, content, likes, continent} = req.body
             const post = await prisma.note.create({
                 data: {
                     title, 
                     content,
+                    continent,
                     likes,
                     userId: prismaUser.id
                 },

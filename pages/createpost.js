@@ -7,12 +7,13 @@ import { useState } from "react"
 export default function posts({posts}){
     const[title, setTitle] = useState("")
     const[content, setContent] = useState("")
-    const[authorName, setAuthorName] = useState("")
+    const[continent, setContinent] = useState("")
+    const[inputError, setInputError] = useState(false)
     const handleSubmit = async() => {
         const { data } = await axios.post(  '/api/posts', {
             title: title,
             content: content,
-            authorName: authorName,
+            continent: continent.captia(),
             likes: 0
         })
         console.log(data)
@@ -30,11 +31,23 @@ export default function posts({posts}){
 
                     <textarea onChange={(event) => setTitle(event.target.value)} className=' p-1 h-8 w-5/6 resize-none text-center scrollbar-hide' placeholder="Title"></textarea>
                     <div className="border-b-2 w-full"></div>
-                    <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2' placeholder="What's your travel story"></textarea>
+                    <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2' placeholder="What's your travel story?"></textarea>
                     {/* tag input */}
-                    <input onChange={(event) => setAuthorName(event.target.value)} className=' p-1 w-5/6 border-b-2' placeholder="Add Country Tag"></input>
+                    <div className="w-5/6">
+                        <input onChange={(event) => setContinent(event.target.value)} className=' p-1 w-full border-b-2' placeholder="Add Continent Tag"></input>
+                        {
+                            inputError && <div className="absolute text-red-400"> please enter a valid continent </div>
+                        }
+                    </div>
                     <div className=" p-1 w-full flex justify-end">
-                        <button onClick={() => handleSubmit()} className=" bg-red-300 py-2 px-4 m-4 rounded-md "> post </button>
+                        <button onClick={() => {
+                            if(continent.toLowerCase()==="north america" || continent==="south america" || continent==="africa" || continent==="europe" || continent==="asia" || continent==="oceania"){
+                                setInputError(false)
+                                handleSubmit()
+                            } else {
+                                setInputError(true)
+                            }
+                            }} className=" bg-red-300 py-2 px-4 m-4 rounded-md "> post </button>
                     </div>
                 </div>
             </div>
