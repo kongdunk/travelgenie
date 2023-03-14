@@ -30,7 +30,6 @@ export default function posts({posts}){
 
                     <textarea onChange={(event) => setTitle(event.target.value)} className=' p-1 h-8 w-5/6 resize-none text-center scrollbar-hide' placeholder="Title"></textarea>
                     <div className="border-b-2 w-full"></div>
-                    <input onChange={(event) => setAuthorName(event.target.value)} className=' p-1 w-5/6 border-b-2' placeholder="Username"></input>
                     <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2' placeholder="What's your travel story"></textarea>
                     {/* tag input */}
                     <input onChange={(event) => setAuthorName(event.target.value)} className=' p-1 w-5/6 border-b-2' placeholder="Add Country Tag"></input>
