@@ -1,5 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
+import { getServerSession } from 'next-auth';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 export default function Card({user, title, content, continent, likes, id}){
 
@@ -7,6 +9,11 @@ export default function Card({user, title, content, continent, likes, id}){
     const [heart, setHeart] = useState(false)
     //to display likes being incremented or decremented
     const [likesNow, setLikesNow] = useState(likes)
+    const [edit, showEdit] = useState(false)
+    const [update, showUpdate] = useState(false)
+    const [newTitle, setNewTitle] = useState("")
+    const [ newContent, setNewContent] = useState("")
+    const { data: session } = useSession()
 
     const handleLike = async(id) => {
         setLikesNow(heart ? likesNow - 1 : likesNow + 1)
@@ -16,26 +23,69 @@ export default function Card({user, title, content, continent, likes, id}){
         })
         console.log(data)
     }
-
+    const handleDelete = async(id) => {
+        const { data } = await axios.post( '/api/delete', {
+            id,
+        })
+        console.log(data)
+    }
+    const handleUpdate = async(id) => {
+        const { data } = await axios.post( '/api/update', {
+            id,
+            title: newTitle,
+            content: newContent
+        })
+        showEdit(false)
+        showUpdate(false)
+        console.log(data)
+    }
     return (
     <>
         <div className='w-5/6 flex justify-center flex-col rounded-lg p-5 m-8'>
-            <div className="flex items-center justify-between">
-                <div className="flex flex-start">
-                    <h2 className='text-2xl font-semibold mb-3'>
-                        {title}
-                    </h2>
-                    <h3 className="flex justify-center items-center h-3/5 p-1 bg-green-500 ml-3 rounded-xl text-sm font-semibol text-white">
+            <div className="flex items-center justify-between w-full">
+                <div className="flex flex-col flex-start w-full">
+                    { !update &&
+                        <h2 className='text-xl font-semibold mb-3'>
+                            {title}
+                        </h2>
+                    }
+                    {
+                        update &&
+                        <input onChange={(event) => setNewTitle(event.target.value)} className="text-xl font-semibold mb-3" type="text" defaultValue={title} />
+                    }
+                    <h3 className="flex justify-start items-start h-3/5 p-1 w-fit bg-green-500 rounded-xl text-xs font-semibold text-white">
                         {continent}
                     </h3>
+                    
                 </div>
-                <p className="mb-3 font-bold">
-                    {user}
-                </p>
+                <div>
+                    { session && session.user.name === user &&
+                    <img src="/more.svg" onClick={() => showEdit(!edit)} className="relative -right-12" width={40} alt="more icon" srcset="" />
+                    }
+                    {edit && <div className=" absolute flex flex-col w-20 bg-white p-2 shadow-lg      rounded-md -mt-3">
+                        <button className=" " onClick={() => handleDelete(id)}>  delete </button>
+                        <button className=" " onClick={() => showUpdate(!update)}>  edit </button>
+                        { update &&
+                        <div className="flex flex-col justify-center">
+                            <button className=" " onClick={() => handleUpdate(id)}>  update </button>
+                            <button className=" " onClick={() => showUpdate(!update)}>  cancel </button>
+                            </div>
+                        }
+                            </div>
+                    }
+                    <p className="mb-3 font-semibold text-sm">
+                        {user}
+                    </p>
+                </div>
             </div>
-            <p className="mb-3">
-                {content}
-            </p>
+            { !update &&
+                <p className="mb-3">
+                    {content}
+                </p>
+            }
+            { update &&
+                <textarea onChange={(event) => setNewContent(event.target.value)} className="mb-3 h-36" defaultValue={content} />
+            }
             
             <div className="border-t-2 pt-2 ">
                 <svg onClick={() => {
@@ -51,4 +101,15 @@ export default function Card({user, title, content, continent, likes, id}){
         <div className=" border-b-2 w-full "/>
     </>
     )
+}
+
+export async function getServerSideProps(context) {
+    // will always run on the server
+    const session = await getServerSession(context.req, context.res, authOptions)
+
+    return {
+        props: {
+            session
+        },
+    } 
 }
