@@ -8,11 +8,14 @@ import Card from '@/components/cards';
 import { prisma } from '@/server/database/client';
 import { SessionProvider } from "next-auth/react"
 import { useSession, signIn, signOut } from "next-auth/react"
+import { authOptions } from "./api/auth/[...nextauth]"
+import { getServerSession } from 'next-auth';
 
 export default function Home({posts}) {
 
   const { data:session } = useSession()
   // session?.user
+
   return (
     <>
       <Head>
@@ -25,14 +28,11 @@ export default function Home({posts}) {
         <header>
           <NavBar/>
           <div className='flex flex-col justify-center align-middle m-auto w-3/4 lg:w-2/5 object-contain transform duration-300'>
-            <div className='flex flex-col justify-center items-center w-full'>
+            <div className='flex flex-col justify-center items-center w-full shadow-lg'>
               <div className='flex flex-col w-full justify-center items-center border-x-2 '>
               {
-                posts.map((post) => 
-                  <div>
-                    <Card id={post.id} key={post.id} likes={post.likes} user={post.user.image} title={post.title} content={post.content} />
-                  </div>
-                
+                posts.map((post) =>
+                    <Card id={post.id} key={post.id} likes={post.likes} continent={post.continent} user={post.user.name} title={post.title} content={post.content} />
                 )
               }
               </div>
@@ -46,9 +46,15 @@ export default function Home({posts}) {
   )
 }
 
-export async function getServerSideProps() {
-    // will always run on the server
+export async function getServerSideProps(context) {
+    // will always run on the server    const router = useRouter()
+    const session = await getServerSession(context.req, context.res, authOptions)
     const posts = await prisma.note.findMany({
+      /* where: {
+        continent: {
+          contains: "NORTH AMERICA"
+        }
+      }, */
       include: {
         user: true,
       }
@@ -57,6 +63,7 @@ export async function getServerSideProps() {
     return {
     props: {
         posts: JSON.parse(JSON.stringify(posts)),
+        session
     },
     } 
 }
