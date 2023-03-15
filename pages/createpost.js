@@ -3,8 +3,10 @@ import SearchInput from "@/components/searchInput"
 import NavBar from "@/components/navbar"
 //import { prisma } from "@/server/database/client"
 import { useState } from "react"
+import { getServerSession } from "next-auth"
+import { authOptions } from "./api/auth/[...nextauth]"
 
-export default function posts({posts}){
+export default function Posts({posts}){
     const[title, setTitle] = useState("")
     const[content, setContent] = useState("")
     const[continent, setContinent] = useState("")
@@ -13,7 +15,7 @@ export default function posts({posts}){
         const { data } = await axios.post(  '/api/posts', {
             title: title,
             content: content,
-            continent: continent.captia(),
+            continent: continent.toUpperCase(),
             likes: 0
         })
         console.log(data)
@@ -26,12 +28,14 @@ export default function posts({posts}){
     return(
         <>
             <NavBar/>
-            <div className="flex flex-col items-center w-full">
-                <div className="flex flex-col items-center w-1/2  rounded-2xl bg-white border-2">
+            <div className="flex flex-col items-center w-full mt-10">
+                <div className="flex flex-col items-center w-1/2  rounded-2xl bg-white border-2 shadow-2xl
 
-                    <textarea onChange={(event) => setTitle(event.target.value)} className=' p-1 h-8 w-5/6 resize-none text-center scrollbar-hide' placeholder="Title"></textarea>
+">
+
+                    <textarea onChange={(event) => setTitle(event.target.value)} className=' p-1 h-8 w-5/6 resize-none text-center scrollbar-hide m-1' placeholder="Title"></textarea>
                     <div className="border-b-2 w-full"></div>
-                    <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2' placeholder="What's your travel story?"></textarea>
+                    <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2 m-1' placeholder="What's your travel story?"></textarea>
                     {/* tag input */}
                     <div className="w-5/6">
                         <input onChange={(event) => setContinent(event.target.value)} className=' p-1 w-full border-b-2' placeholder="Add Continent Tag"></input>
@@ -62,15 +66,22 @@ export default function posts({posts}){
         </>
     )
 }
-/*
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
     // will always run on the server
-    const posts = await prisma.note.findMany()
+  const session = await getServerSession(context.req, context.res, authOptions)
 
+  if(!session) {
+    //redirect to login page
+    return {
+        redirect: {
+          destination:"/api/auth/signin",
+          permanent: false,
+        },
+    }
+  }
     return {
     props: {
-        posts: JSON.parse(JSON.stringify(posts)),
+        session
     },
     } 
 }
-*/
