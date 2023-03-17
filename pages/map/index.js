@@ -5,6 +5,8 @@ export default function Account(){
     const [selected, onSelect] = useState(null);
     const router = useRouter()
 
+    //<WorldMap selected={ selected } onSelect={ onSelect }/> "REACT WORLD MAP"
+
     //for displaying selected continent
     const continents = {
         na: "North America",
@@ -29,7 +31,7 @@ export default function Account(){
     <>
     <NavBar/>
     <div className='w-full scale-50 sm:scale-100 flex justify-center mt-3 duration-200'>
-        <WorldMap selected={ selected } onSelect={ onSelect }/>
+        
     </div>
     <div className='w-full flex justify-center font-semibold'> selected region: {continents[selected]}</div>
     <div className='w-full flex justify-center'>
