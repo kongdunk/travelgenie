@@ -32,7 +32,10 @@ export default function Home({posts}) {
               <div className='flex flex-col w-full justify-center items-center border-x-2 '>
               {
                 posts.map((post) =>
-                    <Card id={post.id} key={post.id} likes={post.likes} continent={post.continent} user={post.user.name} title={post.title} content={post.content} />
+                <>
+                    <Card id={post.id} key={post.id} likes={post.likes} continent={post.continent} user={post.user.name} title={post.title} content={post.content} likedUsers={post.likedUsers} />
+                    <button onClick={() => console.log(post)}> onn </button>
+                </>
                 )
               }
               </div>
@@ -59,6 +62,7 @@ export async function getServerSideProps(context) {
         user: true,
       }
     })
+
 
     return {
     props: {

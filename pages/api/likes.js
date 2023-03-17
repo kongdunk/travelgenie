@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
     switch (method) {
         case 'POST':
-            const {id, like} = req.body
+            const {id, like, email} = req.body
             const updateLike = await prisma.note.update({
             where: {
                 id: id
@@ -15,6 +15,14 @@ export default async function handler(req, res) {
             data: {
                 likes: like?{ decrement: 1}:{increment: 1},
             },
+            where: {
+                id: id,
+            },
+            data: {
+                likedUsers: {
+                    push: email
+                }
+            }
             })
             res.status(201).json(updateLike)
             break
