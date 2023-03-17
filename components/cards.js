@@ -14,12 +14,14 @@ export default function Card({user, title, content, continent, likes, id, likedU
     const [newTitle, setNewTitle] = useState("")
     const [ newContent, setNewContent] = useState("")
     const { data: session } = useSession()
-    useEffect(() => {
-    if (likedUsers.includes(session.user.email)){
-        setHeart(true)
-    }    
-    }, [])
 
+    if(session){
+        useEffect(() => {
+        if (likedUsers.includes(session.user.email)){
+            setHeart(true)
+        }    
+        }, [])
+    }
 
     const handleLike = async(id) => {
         setLikesNow(heart ? likesNow - 1 : likesNow + 1)
