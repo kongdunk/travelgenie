@@ -1,10 +1,6 @@
 import NavBar from '@/components/navbar';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
-const ReactDOM = require('react-dom');
-const WorldMap = require('react-world-map');
-
 export default function Account(){
     const [selected, onSelect] = useState(null);
     const router = useRouter()
