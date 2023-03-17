@@ -18,7 +18,7 @@ export default function NavBar({image}){
             </button>
             <button onClick={() => router.push("/createpost")} className=" text-sm sm:text-lg font-bold"> create post </button>
             <button>
-                <img onClick={() => {showProfile(!profile)}} className=" text-sm sm:text-lg font-bold w-8" src={session? session.user.image: "/favicon.ico"}/>
+                <img onClick={() => {showProfile(!profile)}} className=" sm:w-8 text-sm sm:text-lg font-bold w-4" src={session? session.user.image: "/loginIcon.svg"}/>
                 {
                 profile && <div className=" absolute p-1 right-10 w-36 shadow-md bg-white">
                     <div className="flex flex-col p-3 justify-center items-center">
