@@ -29,10 +29,7 @@ export default function Posts({posts}){
         <>
             <NavBar/>
             <div className="flex flex-col items-center w-full mt-10">
-                <div className="flex flex-col items-center w-1/2  rounded-2xl bg-white border-2 shadow-2xl
-
-">
-
+                <div className="flex flex-col items-center w-3/4 sm:w-1/2  rounded-2xl bg-white border-2 shadow-2xl">
                     <textarea onChange={(event) => setTitle(event.target.value)} className=' p-1 h-8 w-5/6 resize-none text-center scrollbar-hide m-1' placeholder="Title"></textarea>
                     <div className="border-b-2 w-full"></div>
                     <textarea onChange={(event) => setContent(event.target.value)} className=' p-1 h-56 w-5/6 resize-none border-b-2 m-1' placeholder="What's your travel story?"></textarea>
@@ -54,15 +51,7 @@ export default function Posts({posts}){
                             }} className=" bg-red-300 py-2 px-4 m-4 rounded-md "> post </button>
                     </div>
                 </div>
-            </div>
-            {/*
-                posts.map((post) => 
-                    <div key={post.id}>
-                        {post.title}
-                        {post.content}
-                    </div>
-                )
-    */}
+            </div>  
         </>
     )
 }

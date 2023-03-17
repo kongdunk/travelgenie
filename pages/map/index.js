@@ -32,7 +32,7 @@ export default function Account(){
     return (
     <>
     <NavBar/>
-    <div className='w-full flex justify-center mt-3'>
+    <div className='w-full scale-50 sm:scale-100 flex justify-center mt-3 duration-200'>
         <WorldMap selected={ selected } onSelect={ onSelect }/>
     </div>
     <div className='w-full flex justify-center font-semibold'> selected region: {continents[selected]}</div>

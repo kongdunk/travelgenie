@@ -27,7 +27,7 @@ export default function Home({posts}) {
       <main>
         <header>
           <NavBar/>
-          <div className='flex flex-col justify-center align-middle m-auto w-3/4 lg:w-2/5 object-contain transform duration-300'>
+          <div className='flex flex-col justify-center align-middle m-auto w-3/4 lg:w-2/5 object-contain transform duration-300 shadow'>
             <div className='flex flex-col justify-center items-center w-full'>
               <div className='flex flex-col w-full justify-center items-center border-x-2 '>
               {

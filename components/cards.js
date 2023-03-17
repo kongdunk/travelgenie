@@ -69,7 +69,7 @@ export default function Card({user, title, content, continent, likes, id, likedU
                 </div>
                 <div>
                     { session && session.user.name === user &&
-                    <img src="/more.svg" onClick={() => showEdit(!edit)} className="relative -right-12" width={40} alt="more icon" srcset="" />
+                    <img src="/more.svg" onClick={() => showEdit(!edit)} className="relative -right-12" width={40} alt="more icon" srcSet="" />
                     }
                     {edit && <div className=" absolute flex flex-col w-20 bg-white p-2 shadow-lg      rounded-md -mt-3">
                         <button className=" " onClick={() => handleDelete(id)}>  delete </button>
