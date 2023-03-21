@@ -5,8 +5,10 @@ import NavBar from "@/components/navbar"
 import { useState } from "react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "./api/auth/[...nextauth]"
+import { useRouter } from "next/router"
 
 export default function Posts({posts}){
+    const router = useRouter()
     const[title, setTitle] = useState("")
     const[content, setContent] = useState("")
     const[continent, setContinent] = useState("")
@@ -19,6 +21,8 @@ export default function Posts({posts}){
             likes: 0
         })
         console.log(data)
+        router.push("/")
+
     }
 
     const showPosts = () => {
