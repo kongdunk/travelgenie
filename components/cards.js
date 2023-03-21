@@ -12,7 +12,7 @@ export default function Card({user, title, content, continent, likes, id, likedU
     const [edit, showEdit] = useState(false)
     const [update, showUpdate] = useState(false)
     const [newTitle, setNewTitle] = useState("")
-    const [ newContent, setNewContent] = useState("")
+    const [newContent, setNewContent] = useState("")
     const { data: session } = useSession()
 
     if(session){
@@ -60,7 +60,10 @@ export default function Card({user, title, content, continent, likes, id, likedU
                     }
                     {
                         update &&
-                        <input onChange={(event) => setNewTitle(event.target.value)} className="text-xl font-semibold mb-3" type="text" defaultValue={title} />
+                        <input onChange={(event) => {
+                            setNewTitle(event.target.value)
+                            console.log(newTitle)
+                        }} className="text-xl font-semibold mb-3" type="text" defaultValue={title} />
                     }
                     <h3 className="flex justify-start items-start h-3/5 p-1 w-fit bg-green-500 rounded-xl text-xs font-semibold text-white">
                         {continent}
@@ -93,7 +96,9 @@ export default function Card({user, title, content, continent, likes, id, likedU
                 </p>
             }
             { update &&
-                <textarea onChange={(event) => setNewContent(event.target.value)} className="mb-3 h-36" defaultValue={content} />
+                <textarea onChange={(event) => {setNewContent(event.target.value)
+                console.log(newContent)
+                }} className="mb-3 h-36" defaultValue={content} />
             }
             
             <div className="border-t-2 pt-2 ">

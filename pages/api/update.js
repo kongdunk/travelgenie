@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     switch (method) {
         case 'POST':
             const {id, title, content} = req.body
-            const post = await prisma.note.update({
+            const post = await prisma.note.updateMany({
             where: {
                 id: id
             },
